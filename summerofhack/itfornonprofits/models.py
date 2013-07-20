@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Skill(models.Model):
     def __unicdode__(self):
         return self.name

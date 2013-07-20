@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from itfornonprofits.models import Project
 
@@ -7,8 +8,10 @@ def index(request):
     context = {'num_projects': num_projects}
     return render(request, 'itfornonprofits/index.html', context)
 
-def addproject():
-    pass
+def addproject(request):
+   # f = ProjectForm(request.POST)
+   # new_project = f.save()
+    return render(request, 'itfornonprofits/addproject.html')
 
 def idx(d, v, default=None):
     if v in d:
