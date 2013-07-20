@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Sign in &middot; Twitter Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/static/itfornonprofits/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+
+      td {
+        border: 1px solid black;
+      }
+
+    </style>
+    <link href="/static/itfornonprofits/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'viewprojects'  %}" method="post">
+    {% csrf_token %}
+    Keyword: <input type="text" name="keyword" /> <br/>
+    Sectors: <input type="text" name="sectors" /> <br/>
+    Skills: <input type="text" name="skills" /> <br/>
+    Maximum number of hours: <input type="text", name="maxtime" value="100"/> <br/>
+    Minimum number of hours: <input type="text", name="mintime" value="0"/><br/>
+    <input type="submit" value="Search" name="search" />
+    </form>
+    <div class="container">
+        <table style="border: 1px solid black"> 
+            <tr>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Created</td>
+                <td>Expected working time</td>
+                <td>Sector</td>
+                <td>Skills</td>
+            </tr>
+
+        {% for project in projects %}
+            <tr>
+                <td>{{project.name}}</td>
+                <td>{{project.description}}</td>
+                <td>{{project.date_created}}</td>
+                <td>{{project.time_needed}}</td>
+                <td>{{project.new_sectors}}</td>
+                <td>{{project.new_skills}}</td>
+            </tr>
+        {% endfor %}
+
+    </div> <!-- /container -->
+  </body>
+</html>
