@@ -65,19 +65,33 @@
 
     <div class="container">
 
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <table>
+      <div class="hero-unit">
+        <center><h2>Move Fast and Build Things.</h2></center>
+        <br>
+        <p>Welcome! Our goal is to connect engineers who want to donate their time with nonprofit projects that need them.
+          If you're a programmer, browse our projects to find a cause that needs your help.
+          If you're a nonprofit, add a project that you need coding help on.
+          Keep calm and code on!</p>
+          <br>
+        <center><table>
         	<tr>
         		<td>
-        			<button class="btn btn-large btn-primary" type="submit">Find a project</button>
+              <a href="{% url 'viewprojects' %}">
+        			<button class="btn btn-large btn-success" type="button">
+                <h2>Find a project</h2>
+              </button></a>
         		</td>
         		<td>
-        			<button class="btn btn-large btn-primary" type="submit">Add a project</button>
+        			<a href="{% url 'addproject' %}">
+              <button class="btn btn-large btn-info" type="button">
+                <h2>Add a project</h2>
+              </button></a>
         		</td>
         	</tr>
-        </table>
-      </form>
+        </table></center>
+        <br>
+        <p>A Summer of Hack project by Michal and Ellora.</p>
+      </div>
 
     </div> <!-- /container -->
   </body>

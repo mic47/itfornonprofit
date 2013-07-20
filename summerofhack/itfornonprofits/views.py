@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from itfornonprofits.models import Project
 
@@ -7,8 +8,8 @@ def index(request):
     context = {'num_projects': num_projects}
     return render(request, 'itfornonprofits/index.html', context)
 
-def addproject():
-	pass
+def addproject(request):
+	return HttpResponse("Hello world")
 
-def viewprojects():
-	pass
+def viewprojects(request):
+	return HttpResponse("Hello world")

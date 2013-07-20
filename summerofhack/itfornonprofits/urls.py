@@ -4,6 +4,6 @@ from itfornonprofits import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^$', views.index, name='addproject'),
-    url(r'^$', views.index, name='viewprojects')
+    url(r'^addproject$', views.addproject, name='addproject'),
+    url(r'^viewprojects$', views.viewprojects, name='viewprojects')
 )
