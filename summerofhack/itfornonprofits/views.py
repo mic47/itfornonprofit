@@ -9,7 +9,9 @@ def index(request):
     return render(request, 'itfornonprofits/index.html', context)
 
 def addproject(request):
-	return HttpResponse("Hello world")
+   # f = ProjectForm(request.POST)
+   # new_project = f.save()
+    return render(request, 'itfornonprofits/addproject.html')
 
 def viewprojects(request):
 	return HttpResponse("Hello world")
