@@ -1,22 +1,48 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+import datetime
 from itfornonprofits.models import Project
+from itfornonprofits.models import Sector
+from itfornonprofits.models import Skill
 
 def index(request):
     num_projects = len(Project.objects.all())
     context = {'num_projects': num_projects}
     return render(request, 'itfornonprofits/index.html', context)
 
-def addproject(request):
-   # f = ProjectForm(request.POST)
-   # new_project = f.save()
-    return render(request, 'itfornonprofits/addproject.html')
-
 def idx(d, v, default=None):
     if v in d:
         return d[v]
     return default
+
+def addproject(request):
+    return render(request, 'itfornonprofits/addproject.html')
+
+def createprojectindb(request):
+    p = Project(name=request.POST['name'], description=request.POST['description'], time_needed=request.POST['time_needed'], date_created=datetime.datetime.now())
+    p.save()
+    sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
+    for sector in sectors:
+    	project_sector = Sector.objects.filter(name=sector)
+    	if (len(project_sector) == 0):
+    		project_sector = Sector()
+    		project_sector.name = sector
+    		project_sector.save()
+    	else:
+    		project_sector = project_sector[0]
+    	p.sectors.add(project_sector)
+    skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
+    for skill in skills:
+    	project_skill = Skill.objects.filter(name=skill)
+    	if (len(project_skill) == 0):
+    		project_skill = Skill()
+    		project_skill.name = skill
+    		project_skill.save()
+    	else:
+    		project_skill = project_skill[0]
+    	p.skills.add(project_skill)
+
+    return render(request, 'itfornonprofits/viewprojects.html')
 
 def filter_list(wat, stuff):
     intersection = set(wat).intersection(set(stuff)) 

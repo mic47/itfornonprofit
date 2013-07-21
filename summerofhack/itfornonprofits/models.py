@@ -11,6 +11,7 @@ class Sector(models.Model):
         return self.name
         
     name = models.CharField(max_length=200)
+
 class Project(models.Model):
     def __unicdode__(self):
         return self.name
