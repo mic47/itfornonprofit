@@ -38,6 +38,7 @@ def createprojectindb(request):
         time_needed=request.POST['time_needed'],
         email=request.POST['email'],
         fbpage=request.POST['fbpage'],
+        status='New',
         date_created=datetime.datetime.now()
     )
     p.save()
@@ -75,7 +76,13 @@ def createprojectindb(request):
 def viewproject(request, pk):
     p = Project.objects.get(pk=int(pk))
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
-    context = {'project': p, 'skills_list': skills_list}
+    if p.status == 'Backed':
+        backing_message = 'Project is backed by '
+    elif p.status == 'Finished':
+        backing_message = 'Project was finished by '
+    else: 
+        backing_message = 'Project is no backed yet.'
+    context = {'project': p, 'skills_list': skills_list, 'engineers': Engineer.objects.all(), 'backing_message': backing_message}
     return render(request, 'itfornonprofits/viewproject.html', context);
 
 def contactproject(request):
@@ -102,7 +109,13 @@ Subject: {subject}
         message_to_user = "Error: unable to send email"
     except:
         message_to_user = 'Error: Message not sent, because are not able to connect to mail server'
-    context = {'project': p, 'message': message_to_user}
+    if project.status == 'Backed':
+        backing_message = 'Project is backed by '
+    elif project.status == 'Finished':
+        backing_message = 'Project was finished by '
+    else: 
+        backing_message = 'Project is no backed yet.'
+    context = {'project': p, 'message': message_to_user, 'backing_message': backing_message}
     return render(request, 'itfornonprofits/viewproject.html', context);
 
 def filter_list(wat, stuff):
@@ -235,7 +248,27 @@ def addskilltoproject(request, pk):
     project.save()
    
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
-    context = {'project': project, 'skills_list': skills_list}
+    if project.status == 'Backed':
+        backing_message = 'Project is backed by '
+    elif project.status == 'Finished':
+        backing_message = 'Project was finished by '
+    else: 
+        backing_message = 'Project is no backed yet.'
+    print backing_message, project.status, 'asdf'
+    context = {'project': project, 'skills_list': skills_list, 'backing_message': backing_message}
     return render(request, 'itfornonprofits/viewproject.html', context);
    
+def backproject(request, pk_project, pk_user):
+    project = Project.objects.get(pk=int(pk_project))
+    user = Engineer.objects.get(pk=int(pk_user))
+    if project.status != 'Finished':
+        project.status = 'Backed'
+        project.backed_by.add(user)
+        project.save()
+    return HttpResponse("Hello world")
 
+def finishproject(request, pk_project):
+    project = Project.objects.get(pk=int(pk_project))
+    project.status = 'Finished'
+    project.save()
+    return HttpResponse("Hello world")

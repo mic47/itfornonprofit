@@ -13,4 +13,6 @@ urlpatterns = patterns('',
     url(r'^registerengineer$', views.registerengineer, name='registerengineer'),
     url(r'^createengineer$', views.createengineer, name='createengineer'),
     url(r'^addskilltoproject/(\d)$', views.addskilltoproject, name='addskilltoproject'),
+    url(r'^backproject/([0-9XY]*)/([0-9XY]*)$', views.backproject, name='backproject'),
+    url(r'^finishproject/(\d)$', views.finishproject, name='finishproject'),
 )

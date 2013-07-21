@@ -58,7 +58,26 @@
       js = d.createElement(s); js.id = id;
       js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=661428913884918";
       fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    }(document, 'script', 'facebook-jssdk'));
+    
+    function back_by(project, user) {
+        $.ajax({
+        url: "{% url 'backproject' 'XXX' 'YYY' %}".replace('XXX', project).replace('YYY', user)
+        }).done(function() {
+            window.location.reload()
+        });
+    }
+
+    function finish_project(project) {
+        $.ajax({
+        url: "{% url 'finishproject' project.pk %}"
+        }).done(function() {
+            window.location.reload()
+        });
+
+    }
+
+    </script>
 
   </head>
 
@@ -69,7 +88,11 @@
         <div class="hero-unit">
         <center><h2>Project: {{project.name}} </h2></center>
         <br>
-
+        <center>{{backing_message}} 
+        {% for backer in project.backed_by.all %}
+            {{backer.name}},
+        {% endfor %}
+        </center>
         <div style="float:right">   
       {% if project.fbpage %}
         <!--<div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>-->
@@ -84,15 +107,32 @@
         {% for skill in project.skills.all %}
           <span class="badge badge-info">{{ skill.name }}</span>
         {% endfor %}
+        {% if project.status != "Finished" %}
         <form action="{% url 'addskilltoproject' project.pk %}" method="post">
 			{% csrf_token %}
           <input type="text" name="skills" placeholder="Suggest needed skills" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> 
         </form>
+        {% endif %}
         {% for sector in project.sectors.all %}
           <span class="badge badge-warning"> {{ sector.name }} </span>
         {% endfor %}
         <br>
+        {% if project.status != "Finished" %}
+        <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            Action
+            <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {% for engineer in engineers %}
+                    <li><a href="#" onclick='back_by({{ project.pk }}, {{ engineer.pk }});'>Back by {{ engineer.name }}</a></li>
+                {% endfor %}
+                <li><a href="#" onclick='finish_project({{ project.pk }});'>Finish</a></li>
+            </ul>
+        </div> 
+        {% endif %}
         </center>
+        {% if project.status != "Finished" %}
   		<center>
         <h2>Offer help</h2>
         <form action="{% url 'contactproject' %}" method="post">
@@ -106,6 +146,7 @@
 						<textarea name="message" id="message" placeholder="Write message to project owner. He will contact you directly to your email."></textarea> <br/>	
 						<button class="btn btn-success" type="submit">Send email!</button>
 		</form></center>
+        {% endif %}
         <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
       </div>
     </div>
