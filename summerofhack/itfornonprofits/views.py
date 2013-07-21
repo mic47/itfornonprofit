@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import json
 import datetime
+import email
+import smtplib
 from itfornonprofits.models import Project
 from itfornonprofits.models import Sector
 from itfornonprofits.models import Skill
@@ -20,7 +22,13 @@ def addproject(request):
     return render(request, 'itfornonprofits/addproject.html')
 
 def createprojectindb(request):
-    p = Project(name=request.POST['name'], description=request.POST['description'], time_needed=request.POST['time_needed'], date_created=datetime.datetime.now())
+    p = Project(
+        name=request.POST['name'],
+        description=request.POST['description'],
+        time_needed=request.POST['time_needed'],
+        email=request.POST['email'],
+        date_created=datetime.datetime.now()
+    )
     p.save()
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
     for sector in sectors:
@@ -44,6 +52,41 @@ def createprojectindb(request):
     	p.skills.add(project_skill)
 
     return render(request, 'itfornonprofits/viewprojects.html')
+
+def viewproject(request):
+    pk = idx(request.POST, 'pk')
+    if pk == None:
+        pk = idx(request.GET, 'pk')
+    p = Project.objects.get(pk=int(pk))
+    context = {'project': p}
+    return render(request, 'itfornonprofits/viewproject.html', context);
+
+def contactproject(request):
+    p = Project.objects.get(pk=request.POST['pk'])
+    message = """
+From: {fromm}
+To: {to}
+Reply-to: {replyto}
+Subject: {subject}
+
+{message}
+    """.format(
+        fromm='noreply@itfornonprofits.sh',
+        to=p.email,
+        replyto=request.POST['email'],
+        subject=request.POST['subject'],
+        message=request.POST['message'],
+    )
+    try:
+        mtpObj = smtplib.SMTP('localhost')
+        smtpObj.sendmail(requuest.POST['email'], p.email, message)         
+        message_to_user = "Successfully sent email"
+    except smtplib.SMTPException:
+        message_to_user = "Error: unable to send email"
+    except:
+        message_to_user = 'Error: Message not sent, because are not able to connect to mail server'
+    context = {'project': p, 'message': message_to_user}
+    return render(request, 'itfornonprofits/viewproject.html', context);
 
 def filter_list(wat, stuff):
     intersection = set(wat).intersection(set(stuff)) 

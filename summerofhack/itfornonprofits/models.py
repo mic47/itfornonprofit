@@ -22,4 +22,4 @@ class Project(models.Model):
     time_needed = models.IntegerField()
     skills = models.ManyToManyField(Skill)
     sectors = models.ManyToManyField(Sector)
-
+    email = models.EmailField(max_length=300)
