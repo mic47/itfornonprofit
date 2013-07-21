@@ -79,57 +79,57 @@
   </script>
   <script src="/static/itfornonprofits/js/clickable_tags.js"></script>
   <script>
-    function do_onload() {
-        register_clickable_tags("{% url 'viewprojects' %}", "{%csrf_token%}");
-    }
+  function do_onload() {
+    register_clickable_tags("{% url 'viewprojects' %}", "{%csrf_token%}");
+  }
   </script>
 
   <body onload='do_onload()'>
 
-</head>
+  </head>
 
-<body>
-  
-<div id="fb-root"></div>
-        <div class="container">
+  <body>
+
+    <div id="fb-root"></div>
+    <div class="container">
       <div class="soh">
         <div class="hero-unit">
-        <center><h2>Project: {{project.name}} </h2></center>
-        <br>
-        <center>{{backing_message}} 
-          {% for backer in project.backed_by.all %}
-          {{backer.name}}
-          {% endfor %}
-        </center>
-        <div style="float:right">   
-          {% if project.fbpage %}
-          <!--<div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>-->
-          {% endif %}  
-        </div>
+          <center><h2>Project: {{project.name}} </h2></center>
+          <br>
+          <center>{{backing_message}} 
+            {% for backer in project.backed_by.all %}
+            {{backer.name}}
+            {% endfor %}
+          </center>
+          <div style="float:right">   
+            {% if project.fbpage %}
+            <!--<div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>-->
+            {% endif %}  
+          </div>
 
-        {%if message %}
-        <h6>{{message}}</h6> 
-        {%endif %}
-        <center>
-          <h4>Description: {{project.description}} </h4>
+          {%if message %}
+          <h6>{{message}}</h6> 
+          {%endif %}
+          <center>
+            <h4>Description: {{project.description}} </h4>
 
-          <table><tr><td>
-          {% for skill in project.skills.all %}
-          <span class="badge badge-info">{{ skill.name }}</span>
-          {% endfor %}
-        </td><td style="padding-top:25px">
-          {% if project.status != "Finished" %}
-          <form action="{% url 'addskilltoproject' project.pk %}" method="post">
-           {% csrf_token %}
-           <input type="text" name="skills" placeholder="Suggest needed skills" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> 
-         </form>
-         {% endif %}
-       </td></tr></table>
+            <table><tr><td>
+              {% for skill in project.skills.all %}
+              <span class="badge badge-info">{{ skill.name }}</span>
+              {% endfor %}
+            </td><td style="padding-top:25px">
+            {% if project.status != "Finished" %}
+            <form action="{% url 'addskilltoproject' project.pk %}" method="post">
+             {% csrf_token %}
+             <input type="text" name="skills" placeholder="Suggest needed skills" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> 
+           </form>
+           {% endif %}
+         </td></tr></table>
 
-        <table><tr><td>
-         {% for sector in project.sectors.all %}
-         <span class="badge badge-warning"> {{ sector.name }} </span>
-         {% endfor %}
+         <table><tr><td>
+           {% for sector in project.sectors.all %}
+           <span class="badge badge-warning"> {{ sector.name }} </span>
+           {% endfor %}
          </td><td>
          {% if project.status != "Finished" %}
          <div class="btn-group">
@@ -137,36 +137,37 @@
             Action
             <span class="caret"></span>
           </a>
-              </td><td>
-          <ul class="dropdown-menu">
-            {% for engineer in engineers %}
-            <li><a href="#" onclick='back_by({{ project.pk }}, {{ engineer.pk }});'>Back by {{ engineer.name }}</a></li>
-            {% endfor %}
-            <li><a href="#" onclick='finish_project({{ project.pk }});'>Finish</a></li>
-          </ul>
-        </div> 
-        {% endif %}
-       </td></tr></table>
 
-      </center>
-      {% if project.status != "Finished" %}
-      <center>
-        <h2>Offer help</h2>
-        <form action="{% url 'contactproject' %}" method="post">
-         {% csrf_token %}
-         <input type='hidden' name='pk' value='{{project.pk}}' />
-         <label for="email">Your email</label>
-         <input type="text" name="email" id="email" />
-         <label for="subject">Subject</label>
-         <input type="text" name="subject" id="subject"/>
-         <label for="message">Message</label>
-         <textarea name="message" id="message" placeholder="The project owner will respond to your message via email."></textarea> <br/>	
-         <button class="btn btn-danger" type="submit">Send email!</button>
-       </form></center>
-       {% endif %}
-       <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
-     </div>
-   </div>
- </div> <!-- /container -->
+        <ul class="dropdown-menu">
+          {% for engineer in engineers %}
+          <li><a href="#" onclick='back_by({{ project.pk }}, {{ engineer.pk }});'>Back by {{ engineer.name }}</a></li>
+          {% endfor %}
+          <li><a href="#" onclick='finish_project({{ project.pk }});'>Finish</a></li>        
+        </td><td>
+        </ul>
+      </div> 
+      {% endif %}
+    </td></tr></table><br>
+
+  </center>
+  {% if project.status != "Finished" %}
+  <center>
+    <h2>Offer help</h2>
+    <form action="{% url 'contactproject' %}" method="post">
+     {% csrf_token %}
+     <input type='hidden' name='pk' value='{{project.pk}}' />
+     <label for="email">Your email</label>
+     <input type="text" name="email" id="email" />
+     <label for="subject">Subject</label>
+     <input type="text" name="subject" id="subject"/>
+     <label for="message">Message</label>
+     <textarea name="message" id="message" placeholder="The project owner will respond to your message via email."></textarea> <br/>	
+     <button class="btn btn-danger" type="submit">Send email!</button>
+   </form></center>
+   {% endif %}
+   <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
+ </div>
+</div>
+</div> <!-- /container -->
 </body>
 </html>

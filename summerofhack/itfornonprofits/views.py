@@ -114,13 +114,8 @@ Subject: {subject}
     elif project.status == 'Finished':
         backing_message = 'Project was finished by '
     else: 
-<<<<<<< HEAD
-        backing_message = 'Project is not backed yet.'
-    context = {'project': p, 'message': message_to_user, 'backing_message': backing_message}
-=======
         backing_message = 'Project is no backed yet.'
     context = {'project': p, 'message': message_to_user, 'backing_message': backing_message, 'engineers': Engineer.objects.all()}
->>>>>>> ef706c80690fea4bfaa5247fdf517ee172046121
     return render(request, 'itfornonprofits/viewproject.html', context);
 
 def filter_list(wat, stuff):
