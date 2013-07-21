@@ -115,7 +115,7 @@ Subject: {subject}
         backing_message = 'Project was finished by '
     else: 
         backing_message = 'Project is no backed yet.'
-    context = {'project': p, 'message': message_to_user, 'backing_message': backing_message}
+    context = {'project': p, 'message': message_to_user, 'backing_message': backing_message, 'engineers': Engineer.objects.all()}
     return render(request, 'itfornonprofits/viewproject.html', context);
 
 def filter_list(wat, stuff):
@@ -239,7 +239,7 @@ def createengineer(request):
             project_skill = project_skill[0]
         e.skills.add(project_skill)
 
-    return render(request, 'itfornonprofits/viewengineers.html')
+    return viewengineers(request)
 
     context = {}
     return render(request, 'itfornonprofits/registerengineer.html', context)
@@ -264,7 +264,7 @@ def addskilltoproject(request, pk):
     else: 
         backing_message = 'Project is no backed yet.'
     print backing_message, project.status, 'asdf'
-    context = {'project': project, 'skills_list': skills_list, 'backing_message': backing_message}
+    context = {'project': project, 'skills_list': skills_list, 'backing_message': backing_message, 'engineers': Engineer.objects.all()}
     return render(request, 'itfornonprofits/viewproject.html', context);
    
 def backproject(request, pk_project, pk_user):
