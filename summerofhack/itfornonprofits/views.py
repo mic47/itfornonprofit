@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import json
 
-from itfornonprofits.models import Project
+from itfornonprofits.models import Project, Sector, Skill
 
 def index(request):
     num_projects = len(Project.objects.all())
@@ -20,7 +21,7 @@ def idx(d, v, default=None):
 
 def filter_list(wat, stuff):
     intersection = set(wat).intersection(set(stuff)) 
-    return len(intersection) > 0
+    return len(intersection) > 0 or len(wat) == 0
 
 def viewprojects(request):
     # Keyword search
@@ -59,5 +60,8 @@ def viewprojects(request):
         project.new_skills =  ', '.join([str(s.name) for s in project.skills.all()])
         project.new_sectors = ', '.join([str(s.name) for s in project.sectors.all()])
         new_projects.append(project)
-    context = {'projects': new_projects}
+    sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
+    skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
+    print sectors_list
+    context = {'projects': new_projects, 'sectors_list': sectors_list, 'skills_list': skills_list}
     return render(request, 'itfornonprofits/viewprojects.html', context)
