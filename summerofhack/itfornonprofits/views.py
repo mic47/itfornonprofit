@@ -142,6 +142,11 @@ def viewprojects(request):
     return render(request, 'itfornonprofits/viewprojects.html', context)
 
 def viewengineers(request):
+    donated_hours = 0
+    available_hours = 0
+    for engineer in Engineer.objects.all():
+        donated_hours += engineer.time_per_week_alloted
+        available_hours += engineer.time_per_week - engineer.time_per_week_alloted
     objects = Engineer.objects
     mintime = int(idx(request.POST, 'mintime', '0'))
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
@@ -167,7 +172,7 @@ def viewengineers(request):
         new_engineers.append(engineer)
     sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
-    context = {'engineers': new_engineers, 'sectors_list': sectors_list, 'skills_list': skills_list}
+    context = {'engineers': new_engineers, 'sectors_list': sectors_list, 'skills_list': skills_list, 'available_hours': available_hours, 'donated_hours': donated_hours}
     print new_engineers
     return render(request, 'itfornonprofits/viewengineers.html', context)
 
