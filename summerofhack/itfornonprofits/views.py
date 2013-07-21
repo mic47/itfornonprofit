@@ -56,13 +56,9 @@ def viewprojects(request):
     maxtime = int(idx(request.POST, 'maxtime', '0'))
     mintime = int(idx(request.POST, 'mintime', '0'))
     keyword = str(idx(request.POST, 'keyword', ''))
-    print request.POST
-    print 'keyword' in request.POST
     print idx(request.POST, 'keyword', '')
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
     skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
-    print sectors
-    print skills
     if sectors == ['']:
         sectors = []
     if skills == ['']:
