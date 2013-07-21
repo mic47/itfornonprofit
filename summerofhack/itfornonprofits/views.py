@@ -7,6 +7,7 @@ import smtplib
 from itfornonprofits.models import Project
 from itfornonprofits.models import Sector
 from itfornonprofits.models import Skill
+from itfornonprofits.models import Engineer
 
 def index(request):
   #  num_projects = len(Project.objects.all())
@@ -33,14 +34,14 @@ def createprojectindb(request):
     p.save()
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
     for sector in sectors:
-    	project_sector = Sector.objects.filter(name=sector)
-    	if (len(project_sector) == 0):
-    		project_sector = Sector()
-    		project_sector.name = sector
-    		project_sector.save()
-    	else:
-    		project_sector = project_sector[0]
-    	p.sectors.add(project_sector)
+        project_sector = Sector.objects.filter(name=sector)
+        if (len(project_sector) == 0):
+            project_sector = Sector()
+            project_sector.name = sector
+            project_sector.save()
+        else:
+            project_sector = project_sector[0]
+        p.sectors.add(project_sector)
     skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
     for skill in skills:
     	project_skill = Skill.objects.filter(name=skill)
@@ -51,6 +52,15 @@ def createprojectindb(request):
     	else:
     		project_skill = project_skill[0]
     	p.skills.add(project_skill)
+        project_skill = Skill.objects.filter(name=skill)
+        if (len(project_skill) == 0):
+            project_skill = Skill()
+            project_skill.name = skill
+            project_skill.save()
+        else:
+            project_skill = project_skill[0]
+        p.skills.add(project_skill)
+
     return render(request, 'itfornonprofits/viewprojects.html')
 
 def viewproject(request):
@@ -130,3 +140,72 @@ def viewprojects(request):
     print sectors_list
     context = {'projects': new_projects, 'sectors_list': sectors_list, 'skills_list': skills_list}
     return render(request, 'itfornonprofits/viewprojects.html', context)
+
+def viewengineers(request):
+    objects = Engineer.objects
+    mintime = int(idx(request.POST, 'mintime', '0'))
+    sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
+    skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
+    if sectors == ['']:
+        sectors = []
+    if skills == ['']:
+        skills = []
+    if mintime > 0:
+        objects = objects.filter(time_per_week__gte=mintime)
+    if type(objects != list):
+        objects = objects.all()
+    if len(skills) > 0:
+        objects = filter(lambda x: filter_list([y.name for y in x.skills.all()], skills), objects)
+    if len(sectors) > 0:
+        objects = filter(lambda x: filter_list([y.name for y in x.sectors.all()], sectors), objects)
+    engineers = objects
+    new_engineers = []
+    for engineer in engineers:
+        engineer.new_skills =  ', '.join([str(s.name) for s in engineer.skills.all()])
+        engineer.new_sectors = ', '.join([str(s.name) for s in engineer.sectors.all()])
+        engineer.time_available = engineer.time_per_week - engineer.time_per_week_alloted
+        new_engineers.append(engineer)
+    sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
+    skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
+    context = {'engineers': new_engineers, 'sectors_list': sectors_list, 'skills_list': skills_list}
+    print new_engineers
+    return render(request, 'itfornonprofits/viewengineers.html', context)
+
+def registerengineer(request):
+    context = {}
+    return render(request, 'itfornonprofits/registerengineer.html', context)
+
+def createengineer(request):
+    e = Engineer(
+        name=request.POST['name'],
+        description=request.POST['description'],
+        time_per_week=request.POST['time_weekly'],
+        time_per_week_alloted=0,
+        email=request.POST['email'],
+    )
+    e.save()
+    sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
+    for sector in sectors:
+        project_sector = Sector.objects.filter(name=sector)
+        if (len(project_sector) == 0):
+            project_sector = Sector()
+            project_sector.name = sector
+            project_sector.save()
+        else:
+            project_sector = project_sector[0]
+        e.sectors.add(project_sector)
+    skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
+    for skill in skills:
+        project_skill = Skill.objects.filter(name=skill)
+        if (len(project_skill) == 0):
+            project_skill = Skill()
+            project_skill.name = skill
+            project_skill.save()
+        else:
+            project_skill = project_skill[0]
+        e.skills.add(project_skill)
+
+    return render(request, 'itfornonprofits/viewengineers.html')
+
+    context = {}
+    return render(request, 'itfornonprofits/registerengineer.html', context)

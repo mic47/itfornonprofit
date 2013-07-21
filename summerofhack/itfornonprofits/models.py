@@ -23,3 +23,15 @@ class Project(models.Model):
     skills = models.ManyToManyField(Skill)
     sectors = models.ManyToManyField(Sector)
     email = models.EmailField(max_length=300)
+
+class Engineer(models.Model):
+    def __unicdode__(self):
+        return self.name
+
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    sectors = models.ManyToManyField(Sector)
+    skills = models.ManyToManyField(Skill)
+    email = models.EmailField(max_length=300)
+    time_per_week = models.IntegerField()
+    time_per_week_alloted = models.IntegerField()
