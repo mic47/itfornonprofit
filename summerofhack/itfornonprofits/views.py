@@ -9,7 +9,8 @@ from itfornonprofits.models import Sector
 from itfornonprofits.models import Skill
 
 def index(request):
-    num_projects = len(Project.objects.all())
+  #  num_projects = len(Project.objects.all())
+    num_projects = 1000000
     context = {'num_projects': num_projects}
     return render(request, 'itfornonprofits/index.html', context)
 
@@ -50,7 +51,6 @@ def createprojectindb(request):
     	else:
     		project_skill = project_skill[0]
     	p.skills.add(project_skill)
-
     return render(request, 'itfornonprofits/viewprojects.html')
 
 def viewproject(request):
@@ -79,7 +79,7 @@ Subject: {subject}
     )
     try:
         mtpObj = smtplib.SMTP('localhost')
-        smtpObj.sendmail(requuest.POST['email'], p.email, message)         
+        smtpObj.sendmail(request.POST['email'], p.email, message)         
         message_to_user = "Successfully sent email"
     except smtplib.SMTPException:
         message_to_user = "Error: unable to send email"
@@ -96,7 +96,7 @@ def viewprojects(request):
     # Keyword search
     # Match na aspon jeden skill, aspon jeden vector
     objects = Project.objects
-    maxtime = int(idx(request.POST, 'maxtime', '0'))
+    maxtime = int(idx(request.POST, 'maxtime', '100'))
     mintime = int(idx(request.POST, 'mintime', '0'))
     keyword = str(idx(request.POST, 'keyword', ''))
     print idx(request.POST, 'keyword', '')
