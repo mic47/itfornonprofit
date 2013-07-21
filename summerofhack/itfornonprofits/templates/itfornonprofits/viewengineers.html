@@ -14,7 +14,7 @@
   body {
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #f5f5f5;
+    background-color: #67e47f;
   }
 
   .form-signin {
@@ -96,7 +96,7 @@
                {% endfor %}<span>  </span>
                <input type="text" name="skills" placeholder="What about you?" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/><br>
                <label for="mintime">How much time do you need?</label><input type="text", name="mintime" placeholder="Minimum number of hours"/>
-               <div align="right"><button class="btn btn-large btn-success" type="submit"><i class="icon-search icon-white"></i> Find an engineer!</button></div>
+               <div align="right"><button class="btn btn-large btn-danger" type="submit"><i class="icon-search icon-white"></i> Find an engineer!</button></div>
              </tr>
            </table>
          </form>

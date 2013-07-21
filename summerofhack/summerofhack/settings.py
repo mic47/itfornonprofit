@@ -13,7 +13,7 @@ MANAGERS = ADMINS
 def getdb():
     files = [
         '/Users/elloraisrani/itfornonprofit/db',
-        '/Users/michaln/SummerOfHack/itfornonprofit/summerofhack/db',
+        #'/Users/michaln/SummerOfHack/itfornonprofit/summerofhack/db',
     ]
     for f in files:
         if os.path.isfile(f):
@@ -22,7 +22,7 @@ def getdb():
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': getdb(),
+        'NAME': '/Users/elloraisrani/itfornonprofit/db',
         #'NAME': '/Users/michaln/SummerOfHack/itfornonprofit/summerofhack/db',
         # The following settings are not used with sqlite3:
         'USER': '',
