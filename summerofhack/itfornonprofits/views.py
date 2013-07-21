@@ -11,14 +11,21 @@ from itfornonprofits.models import Engineer
 
 def index(request):
   #  num_projects = len(Project.objects.all())
+    num_hours = sum([e.time_per_week - e.time_per_week_alloted for e in Engineer.objects.all()])
     num_projects = 1000000
-    context = {'num_projects': num_projects}
+    context = {'num_projects': num_projects, 'num_hours': num_hours}
     return render(request, 'itfornonprofits/index.html', context)
 
 def idx(d, v, default=None):
     if v in d:
         return d[v]
     return default
+
+def idx_not_empty_string(d, v, default=None):
+    ret = idx(d, v, default)
+    if ret == '':
+        return default
+    return ret
 
 def addproject(request):
     return render(request, 'itfornonprofits/addproject.html')
@@ -106,8 +113,8 @@ def viewprojects(request):
     # Keyword search
     # Match na aspon jeden skill, aspon jeden vector
     objects = Project.objects
-    maxtime = int(idx(request.POST, 'maxtime', '100'))
-    mintime = int(idx(request.POST, 'mintime', '0'))
+    maxtime = int(idx_not_empty_string(request.POST, 'maxtime', '100'))
+    mintime = int(idx_not_empty_string(request.POST, 'mintime', '0'))
     keyword = str(idx(request.POST, 'keyword', ''))
     print idx(request.POST, 'keyword', '')
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
@@ -148,7 +155,7 @@ def viewengineers(request):
         donated_hours += engineer.time_per_week_alloted
         available_hours += engineer.time_per_week - engineer.time_per_week_alloted
     objects = Engineer.objects
-    mintime = int(idx(request.POST, 'mintime', '0'))
+    mintime = int(idx_not_empty_string(request.POST, 'mintime', '0'))
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
     skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
     if sectors == ['']:
