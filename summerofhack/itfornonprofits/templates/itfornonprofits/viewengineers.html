@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/static/itfornonprofits/bootstrap.css" rel="stylesheet">
+    <link href="/static/itfornonprofits/css/bootstrap.css" rel="stylesheet">
     <link href="/static/itfornonprofits/css/slider.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -42,12 +42,8 @@
         padding: 7px 9px;
       }
 
-      td {
-        border: 1px solid black;
-      }
-
     </style>
-    <link href="/static/itfornonprofits/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/itfornonprofits/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
@@ -80,31 +76,31 @@
       <div class="soh">
 
       <div class="hero-unit">
-        <center><h2>View engineers</h2></center>
+        <center><h2>View Engineers</h2></center>
         <br/>
-        <p>See our volunteers, what they can do and how much time they have.</p>
+        <p>See our volunteers, what they can do, and how much time they have.</p>
           <br>
+          <div class="well well-large">
             <form action="{% url 'viewengineers'  %}" method="post" class="navbar-form">
                 {% csrf_token %}
                 <table>
                     <tr>
-                         <input type="text" name="sectors" placeholder="Select sectors" data-provide="typeahead" data-source='{{sectors_list}}' autocomplete="off" id='sectorSelect'/>
-                         <input type="text" name="skills" placeholder="Type skills you have" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> <br/>
-                         <label for="mintime">Minimum number of hours</label>
-                         <input type="text", name="mintime" value="0"/><br/>
-                         <input type="submit" value="Search" name="search" />
+                         <input type="text" name="sectors" placeholder="Sector" data-provide="typeahead" data-source='{{sectors_list}}' autocomplete="off" id='sectorSelect'/>
+                         <input type="text" name="skills" placeholder="Skills needed" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/>
+                         <input type="text", name="mintime" placeholder="Minimum number of hours"/><br/>
+                         <div align="right"><button class="btn btn-large btn-success" type="submit">Find an engineer!</button></div>
                     </tr>
                 </table>
         </form>
+      </div>
 
-
-        <table style="border: 1px solid black"> 
+        <table class="table table-hover table-bordered table-striped"> 
             <tr>
-                <td>Name</td>
-                <td>Description</td>
-                <td>Time avalable/donating (weekly)</td>
-                <td>Sector</td>
-                <td>Skills</td>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Time avalable/donating (weekly)</th>
+                <th>Sector</th>
+                <th>Skills</th>
             </tr>
 
         {% for engineer in engineers %}
@@ -112,8 +108,16 @@
                 <td>{{engineer.name}}</td>
                 <td>{{engineer.description}}</td>
                 <td>{{engineer.time_available}}/{{engineer.time_per_week}}</td>
-                <td>{{engineer.new_sectors}}</td>
-                <td>{{engineer.new_skills}}</td>
+                <td>
+            {% for sector in engineer.sectors.all %}
+              <span class="badge badge-warning">{{ sector.name }}</span>
+            {% endfor %}
+          </td>
+           <td>
+            {% for skill in engineer.skills.all %}
+              <span class="badge badge-info">{{ skill.name }}</span>
+            {% endfor %}
+          </td>
             </tr>
         {% endfor %}
         </table>
