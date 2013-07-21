@@ -66,19 +66,20 @@
 <div id="fb-root"></div>
         <div class="container">
       <div class="soh">
+        <div class="hero-unit">
         <center><h2>Project: {{project.name}} </h2></center>
         <br>
 
-        <div class="hero-unit">
         <div style="float:right">   
       {% if project.fbpage %}
-        <div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>
+        <!--<div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>-->
       {% endif %}  
       </div>
 
         {%if message %}
            <strong>{{message}}</strong> 
         {%endif %}
+        <center>
         <p>{{project.description}} </p>
         {% for skill in project.skills.all %}
           <span class="badge badge-info">{{ skill.name }}</span>
@@ -91,7 +92,10 @@
           <span class="badge badge-warning"> {{ sector.name }} </span>
         {% endfor %}
         <br>
-  		<center><form action="{% url 'contactproject' %}" method="post">
+        </center>
+  		<center>
+        <h2>Offer help</h2>
+        <form action="{% url 'contactproject' %}" method="post">
 			{% csrf_token %}
                         <input type='hidden' name='pk' value='{{project.pk}}' />
 						<label for="email">Your email</label>
