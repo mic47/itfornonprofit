@@ -70,10 +70,7 @@ def createprojectindb(request):
 
     return render(request, 'itfornonprofits/viewprojects.html')
 
-def viewproject(request):
-    pk = idx(request.POST, 'pk')
-    if pk == None:
-        pk = idx(request.GET, 'pk')
+def viewproject(request, pk):
     p = Project.objects.get(pk=int(pk))
     context = {'project': p}
     return render(request, 'itfornonprofits/viewproject.html', context);
