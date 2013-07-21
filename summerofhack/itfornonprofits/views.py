@@ -11,14 +11,21 @@ from itfornonprofits.models import Engineer
 
 def index(request):
   #  num_projects = len(Project.objects.all())
+    num_hours = sum([e.time_per_week - e.time_per_week_alloted for e in Engineer.objects.all()])
     num_projects = 1000000
-    context = {'num_projects': num_projects}
+    context = {'num_projects': num_projects, 'num_hours': num_hours}
     return render(request, 'itfornonprofits/index.html', context)
 
 def idx(d, v, default=None):
     if v in d:
         return d[v]
     return default
+
+def idx_not_empty_string(d, v, default=None):
+    ret = idx(d, v, default)
+    if ret == '':
+        return default
+    return ret
 
 def addproject(request):
     return render(request, 'itfornonprofits/addproject.html')
@@ -63,12 +70,10 @@ def createprojectindb(request):
 
     return render(request, 'itfornonprofits/viewprojects.html')
 
-def viewproject(request):
-    pk = idx(request.POST, 'pk')
-    if pk == None:
-        pk = idx(request.GET, 'pk')
+def viewproject(request, pk):
     p = Project.objects.get(pk=int(pk))
-    context = {'project': p}
+    skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
+    context = {'project': p, 'skills_list': skills_list}
     return render(request, 'itfornonprofits/viewproject.html', context);
 
 def contactproject(request):
@@ -106,8 +111,8 @@ def viewprojects(request):
     # Keyword search
     # Match na aspon jeden skill, aspon jeden vector
     objects = Project.objects
-    maxtime = int(idx(request.POST, 'maxtime', '100'))
-    mintime = int(idx(request.POST, 'mintime', '0'))
+    maxtime = int(idx_not_empty_string(request.POST, 'maxtime', '100'))
+    mintime = int(idx_not_empty_string(request.POST, 'mintime', '0'))
     keyword = str(idx(request.POST, 'keyword', ''))
     print idx(request.POST, 'keyword', '')
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
@@ -148,7 +153,7 @@ def viewengineers(request):
         donated_hours += engineer.time_per_week_alloted
         available_hours += engineer.time_per_week - engineer.time_per_week_alloted
     objects = Engineer.objects
-    mintime = int(idx(request.POST, 'mintime', '0'))
+    mintime = int(idx_not_empty_string(request.POST, 'mintime', '0'))
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
     skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
     if sectors == ['']:
@@ -214,3 +219,21 @@ def createengineer(request):
 
     context = {}
     return render(request, 'itfornonprofits/registerengineer.html', context)
+
+def addskilltoproject(request, pk):
+    skill = idx(request.POST, 'skills', '')
+    project = Project.objects.get(pk=pk)
+    try: 
+        skill_obj = Skill.objects.get(name=skill)
+    except:
+        #TODO: correct exception hadnling
+        skill_obj = Skill(name=skill)
+        skill_obj.save()
+    project.skills.add(skill_obj)
+    project.save()
+   
+    skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
+    context = {'project': project, 'skills_list': skills_list}
+    return render(request, 'itfornonprofits/viewproject.html', context);
+   
+
