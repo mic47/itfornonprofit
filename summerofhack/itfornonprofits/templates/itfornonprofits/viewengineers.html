@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>See our volunteers</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <meta charset="utf-8">
+  <title>See our volunteers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="/static/itfornonprofits/css/bootstrap.css" rel="stylesheet">
-    <link href="/static/itfornonprofits/css/slider.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #f5f5f5;
-      }
+  <!-- Le styles -->
+  <link href="/static/itfornonprofits/css/bootstrap.css" rel="stylesheet">
+  <link href="/static/itfornonprofits/css/slider.css" rel="stylesheet">
+  <style type="text/css">
+  body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+  }
 
-      .form-signin {
-        max-width: 300px;
-        padding: 19px 29px 29px;
-        margin: 0 auto 20px;
-        background-color: #fff;
-        border: 1px solid #e5e5e5;
-        -webkit-border-radius: 5px;
-           -moz-border-radius: 5px;
-                border-radius: 5px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
-      }
-      .form-signin .form-signin-heading,
-      .form-signin .checkbox {
-        margin-bottom: 10px;
-      }
-      .form-signin input[type="text"],
-      .form-signin input[type="password"] {
-        font-size: 16px;
-        height: auto;
-        margin-bottom: 15px;
-        padding: 7px 9px;
-      }
+  .form-signin {
+    max-width: 300px;
+    padding: 19px 29px 29px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  }
+  .form-signin .form-signin-heading,
+  .form-signin .checkbox {
+    margin-bottom: 10px;
+  }
+  .form-signin input[type="text"],
+  .form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+  }
 
-    </style>
-    <link href="/static/itfornonprofits/css/bootstrap-responsive.css" rel="stylesheet">
+  </style>
+  <link href="/static/itfornonprofits/css/bootstrap-responsive.css" rel="stylesheet">
 
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
-     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="/static/itfornonprofits/js/bootstrap.js"></script>
-    <script src="/static/itfornonprofits/js/bootstrap-slider.js"></script>
-    <script>
+  <!-- Fav and touch icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+  <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="/static/itfornonprofits/js/bootstrap.js"></script>
+  <script src="/static/itfornonprofits/js/bootstrap-slider.js"></script>
+  <script>
     /*
         var skills = [];
         var sectors = [];
@@ -66,65 +66,73 @@
                 alert(txt);
 
             });
-        })*/
-    </script>
-  </head>
-  <body>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+})*/
+</script>
+</head>
+<body>
+  {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <div class="container">
-      <div class="soh">
+  <div class="container">
+    <div class="soh">
 
       <div class="hero-unit">
         <center><h2>View Engineers</h2></center>
         <br/>
         <p>See our volunteers, what they can do, and how much time they have. We have available {{available_hours}} hours of per week of engineering time and we are currently donating {{donated_hours}} hours per week.</p>
-          <br>
-          <div class="well well-large">
-            <form action="{% url 'viewengineers'  %}" method="post" class="navbar-form">
-                {% csrf_token %}
-                <table>
-                    <tr>
-                         <input type="text" name="sectors" placeholder="Sector" data-provide="typeahead" data-source='{{sectors_list}}' autocomplete="off" id='sectorSelect'/>
-                         <input type="text" name="skills" placeholder="Skills needed" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/>
-                         <input type="text", name="mintime" placeholder="Minimum number of hours"/><br/>
-                         <div align="right"><button class="btn btn-large btn-success" type="submit"><i class="icon-search icon-white"></i> Find an engineer!</button></div>
-                    </tr>
-                </table>
-        </form>
-      </div>
+        <br>
+        <div class="well well-large">
+          <form action="{% url 'viewengineers'  %}" method="post" class="navbar-form">
+            {% csrf_token %}
+            <table>
+              <tr>
+               <label for="sectors">What sectors do you serve?</label>
+               {% for sector in sectors %}
+               <span class="badge badge-warning">{{ sector.name }}</span>
+               {% endfor %}<span>  </span>
+               <input type="text" name="sectors" placeholder="What about you?" data-provide="typeahead" data-source='{{sectors_list}}' autocomplete="off" id='sectorSelect'/>
+               <label for="skills">What skills do you need?</label>
+               {% for skill in skills %}
+               <span class="badge badge-info">{{ skill.name }}</span>
+               {% endfor %}<span>  </span>
+               <input type="text" name="skills" placeholder="What about you?" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/><br>
+               <label for="mintime">How much time do you need?</label><input type="text", name="mintime" placeholder="Minimum number of hours"/>
+               <div align="right"><button class="btn btn-large btn-success" type="submit"><i class="icon-search icon-white"></i> Find an engineer!</button></div>
+             </tr>
+           </table>
+         </form>
+       </div>
 
-        <table class="table table-hover table-bordered table-striped"> 
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Time avalable/donating (weekly)</th>
-                <th>Sector</th>
-                <th>Skills</th>
-            </tr>
+       <table class="table table-hover table-bordered table-striped"> 
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Time avalable/donating (weekly)</th>
+          <th>Sector</th>
+          <th>Skills</th>
+        </tr>
 
         {% for engineer in engineers %}
-            <tr>
-                <td>{{engineer.name}}</td>
-                <td>{{engineer.description}}</td>
-                <td>{{engineer.time_available}}/{{engineer.time_per_week}}</td>
-                <td>
+        <tr>
+          <td>{{engineer.name}}</td>
+          <td>{{engineer.description}}</td>
+          <td>{{engineer.time_available}}/{{engineer.time_per_week}}</td>
+          <td>
             {% for sector in engineer.sectors.all %}
-              <span class="badge badge-warning">{{ sector.name }}</span>
+            <span class="badge badge-warning">{{ sector.name }}</span>
             {% endfor %}
           </td>
-           <td>
+          <td>
             {% for skill in engineer.skills.all %}
-              <span class="badge badge-info">{{ skill.name }}</span>
+            <span class="badge badge-info">{{ skill.name }}</span>
             {% endfor %}
           </td>
-            </tr>
+        </tr>
         {% endfor %}
-        </table>
-        <br/>
+      </table>
+      <br/>
 
-        <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
+      <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
     </div>
-    </div> <!-- /container -->
-  </body>
+  </div> <!-- /container -->
+</body>
 </html>

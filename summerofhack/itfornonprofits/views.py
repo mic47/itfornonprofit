@@ -114,7 +114,6 @@ def viewprojects(request):
     maxtime = int(idx_not_empty_string(request.POST, 'maxtime', '100'))
     mintime = int(idx_not_empty_string(request.POST, 'mintime', '0'))
     keyword = str(idx(request.POST, 'keyword', ''))
-    print idx(request.POST, 'keyword', '')
     sectors = [x.strip() for x in str(idx(request.POST, 'sectors', '')).split(',')]
     skills = [x.strip() for x in str(idx(request.POST, 'skills', '')).split(',')]
     if sectors == ['']:
@@ -125,7 +124,6 @@ def viewprojects(request):
         objects = objects.filter(time_needed__lte=maxtime)
     if mintime > 0:
         objects = objects.filter(time_needed__gte=mintime)
-    print keyword
     if len(keyword) > 0:
         objects = objects.filter(description__contains=keyword)
     if type(objects != list):
@@ -141,9 +139,10 @@ def viewprojects(request):
         project.new_sectors = ', '.join([str(s.name) for s in project.sectors.all()])
         new_projects.append(project)
     sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
+    sectors = Sector.objects.all()
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
-    print sectors_list
-    context = {'projects': new_projects, 'sectors_list': sectors_list, 'skills_list': skills_list}
+    skills = Skill.objects.all()
+    context = {'projects': new_projects, 'sectors_list': sectors_list, 'skills_list': skills_list, 'sectors': sectors, 'skills': skills}
     return render(request, 'itfornonprofits/viewprojects.html', context)
 
 def viewengineers(request):
@@ -177,8 +176,9 @@ def viewengineers(request):
         new_engineers.append(engineer)
     sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
-    context = {'engineers': new_engineers, 'sectors_list': sectors_list, 'skills_list': skills_list, 'available_hours': available_hours, 'donated_hours': donated_hours}
-    print new_engineers
+    sectors = Sector.objects.all()
+    skills = Skill.objects.all()
+    context = {'engineers': new_engineers, 'sectors_list': sectors_list, 'skills_list': skills_list, 'available_hours': available_hours, 'donated_hours': donated_hours, 'sectors': sectors, 'skills': skills}
     return render(request, 'itfornonprofits/viewengineers.html', context)
 
 def registerengineer(request):
