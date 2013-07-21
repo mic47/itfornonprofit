@@ -71,7 +71,7 @@ def createprojectindb(request):
             project_skill = project_skill[0]
         p.skills.add(project_skill)
 
-    return render(request, 'itfornonprofits/viewprojects.html')
+    return viewprojects(request)
 
 def viewproject(request, pk):
     p = Project.objects.get(pk=int(pk))
