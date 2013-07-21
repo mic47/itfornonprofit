@@ -81,7 +81,7 @@ def viewproject(request, pk):
     elif p.status == 'Finished':
         backing_message = 'Project was finished by '
     else: 
-        backing_message = 'Project is no backed yet.'
+        backing_message = 'Project is not backed yet.'
     context = {'project': p, 'skills_list': skills_list, 'engineers': Engineer.objects.all(), 'backing_message': backing_message}
     return render(request, 'itfornonprofits/viewproject.html', context);
 
@@ -114,7 +114,7 @@ Subject: {subject}
     elif project.status == 'Finished':
         backing_message = 'Project was finished by '
     else: 
-        backing_message = 'Project is no backed yet.'
+        backing_message = 'Project is not backed yet.'
     context = {'project': p, 'message': message_to_user, 'backing_message': backing_message}
     return render(request, 'itfornonprofits/viewproject.html', context);
 

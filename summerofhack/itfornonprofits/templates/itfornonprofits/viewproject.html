@@ -1,155 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{{project.name}}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <meta charset="utf-8">
+  <title>{{project.name}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="/static/itfornonprofits/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #67e47f;
-      }
+  <!-- Le styles -->
+  <link href="/static/itfornonprofits/css/bootstrap.css" rel="stylesheet">
+  <style type="text/css">
+  body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #67e47f;
+  }
 
-      .form-signin {
-        max-width: 300px;
-        padding: 19px 29px 29px;
-        margin: 0 auto 20px;
-        background-color: #fff;
-        border: 1px solid #e5e5e5;
-        -webkit-border-radius: 5px;
-           -moz-border-radius: 5px;
-                border-radius: 5px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
-      }
-      .form-signin .form-signin-heading,
-      .form-signin .checkbox {
-        margin-bottom: 10px;
-      }
-      .form-signin input[type="text"],
-      .form-signin input[type="password"] {
-        font-size: 16px;
-        height: auto;
-        margin-bottom: 15px;
-        padding: 7px 9px;
-      }
+  .form-signin {
+    max-width: 300px;
+    padding: 19px 29px 29px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  }
+  .form-signin .form-signin-heading,
+  .form-signin .checkbox {
+    margin-bottom: 10px;
+  }
+  .form-signin input[type="text"],
+  .form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+  }
 
-    </style>
-    <link href="/static/itfornonprofits/css/bootstrap-responsive.css" rel="stylesheet">
+  </style>
+  <link href="/static/itfornonprofits/css/bootstrap-responsive.css" rel="stylesheet">
 
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  <!-- Fav and touch icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+  <link rel="shortcut icon" href="../assets/ico/favicon.png">
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap.js"></script>
   <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=661428913884918";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    
-    function back_by(project, user) {
-        $.ajax({
-        url: "{% url 'backproject' 'XXX' 'YYY' %}".replace('XXX', project).replace('YYY', user)
-        }).done(function() {
-            window.location.reload()
-        });
-    }
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=661428913884918";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
 
-    function finish_project(project) {
-        $.ajax({
-        url: "{% url 'finishproject' project.pk %}"
-        }).done(function() {
-            window.location.reload()
-        });
+  function back_by(project, user) {
+    $.ajax({
+      url: "{% url 'backproject' 'XXX' 'YYY' %}".replace('XXX', project).replace('YYY', user)
+    }).done(function() {
+      window.location.reload()
+    });
+  }
 
-    }
+  function finish_project(project) {
+    $.ajax({
+      url: "{% url 'finishproject' project.pk %}"
+    }).done(function() {
+      window.location.reload()
+    });
 
-    </script>
+  }
 
-  </head>
+  </script>
 
-  <body>
-<div id="fb-root"></div>
-        <div class="container">
-      <div class="soh">
-        <div class="hero-unit">
+</head>
+
+<body>
+  <div id="fb-root"></div>
+  <div class="container">
+    <div class="soh">
+      <div class="hero-unit">
         <center><h2>Project: {{project.name}} </h2></center>
         <br>
         <center>{{backing_message}} 
-        {% for backer in project.backed_by.all %}
-            {{backer.name}},
-        {% endfor %}
+          {% for backer in project.backed_by.all %}
+          {{backer.name}}
+          {% endfor %}
         </center>
         <div style="float:right">   
-      {% if project.fbpage %}
-        <!--<div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>-->
-      {% endif %}  
-      </div>
+          {% if project.fbpage %}
+          <!--<div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>-->
+          {% endif %}  
+        </div>
 
         {%if message %}
-           <strong>{{message}}</strong> 
+        <h6>{{message}}</h6> 
         {%endif %}
         <center>
-        <p>{{project.description}} </p>
-        {% for skill in project.skills.all %}
+          <h4>Description: {{project.description}} </h4>
+
+          <table><tr><td>
+          {% for skill in project.skills.all %}
           <span class="badge badge-info">{{ skill.name }}</span>
-        {% endfor %}
-        {% if project.status != "Finished" %}
-        <form action="{% url 'addskilltoproject' project.pk %}" method="post">
-			{% csrf_token %}
-          <input type="text" name="skills" placeholder="Suggest needed skills" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> 
-        </form>
-        {% endif %}
-        {% for sector in project.sectors.all %}
-          <span class="badge badge-warning"> {{ sector.name }} </span>
-        {% endfor %}
-        <br>
-        {% if project.status != "Finished" %}
-        <div class="btn-group">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+          {% endfor %}
+        </td><td style="padding-top:25px">
+          {% if project.status != "Finished" %}
+          <form action="{% url 'addskilltoproject' project.pk %}" method="post">
+           {% csrf_token %}
+           <input type="text" name="skills" placeholder="Suggest needed skills" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> 
+         </form>
+         {% endif %}
+       </td></tr></table>
+
+        <table><tr><td>
+         {% for sector in project.sectors.all %}
+         <span class="badge badge-warning"> {{ sector.name }} </span>
+         {% endfor %}
+         </td><td>
+         {% if project.status != "Finished" %}
+         <div class="btn-group">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
             Action
             <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                {% for engineer in engineers %}
-                    <li><a href="#" onclick='back_by({{ project.pk }}, {{ engineer.pk }});'>Back by {{ engineer.name }}</a></li>
-                {% endfor %}
-                <li><a href="#" onclick='finish_project({{ project.pk }});'>Finish</a></li>
-            </ul>
+          </a>
+              </td><td>
+          <ul class="dropdown-menu">
+            {% for engineer in engineers %}
+            <li><a href="#" onclick='back_by({{ project.pk }}, {{ engineer.pk }});'>Back by {{ engineer.name }}</a></li>
+            {% endfor %}
+            <li><a href="#" onclick='finish_project({{ project.pk }});'>Finish</a></li>
+          </ul>
         </div> 
         {% endif %}
-        </center>
-        {% if project.status != "Finished" %}
-  		<center>
+       </td></tr></table>
+
+      </center>
+      {% if project.status != "Finished" %}
+      <center>
         <h2>Offer help</h2>
         <form action="{% url 'contactproject' %}" method="post">
-			{% csrf_token %}
-                        <input type='hidden' name='pk' value='{{project.pk}}' />
-						<label for="email">Your email</label>
-						<input type="text" name="email" id="email" />
-                        <label for="subject">Subject</label>
-                        <input type="text" name="subject" id="subject"/>
-						<label for="message">Message</label>
-						<textarea name="message" id="message" placeholder="Write message to project owner. He will contact you directly to your email."></textarea> <br/>	
-						<button class="btn btn-danger" type="submit">Send email!</button>
-		</form></center>
-        {% endif %}
-        <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
-      </div>
-    </div>
-    </div> <!-- /container -->
-  </body>
+         {% csrf_token %}
+         <input type='hidden' name='pk' value='{{project.pk}}' />
+         <label for="email">Your email</label>
+         <input type="text" name="email" id="email" />
+         <label for="subject">Subject</label>
+         <input type="text" name="subject" id="subject"/>
+         <label for="message">Message</label>
+         <textarea name="message" id="message" placeholder="The project owner will respond to your message via email."></textarea> <br/>	
+         <button class="btn btn-danger" type="submit">Send email!</button>
+       </form></center>
+       {% endif %}
+       <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
+     </div>
+   </div>
+ </div> <!-- /container -->
+</body>
 </html>
