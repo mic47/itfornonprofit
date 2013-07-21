@@ -122,6 +122,13 @@ def filter_list(wat, stuff):
     intersection = set(wat).intersection(set(stuff)) 
     return len(intersection) > 0 or len(wat) == 0
 
+def order_status(x):
+    if x.status == 'Finished':
+        return 2
+    if x.status == 'Backed':
+        return 1
+    return 0
+
 def viewprojects(request):
     # Keyword search
     # Match na aspon jeden skill, aspon jeden vector
@@ -140,9 +147,9 @@ def viewprojects(request):
     if mintime > 0:
         objects = objects.filter(time_needed__gte=mintime)
     if len(keyword) > 0:
-        objects = objects.filter(description__contains=keyword)
+        objects = objects.filter(description__contains=keyword).order_by('-status')
     if type(objects != list):
-        objects = objects.all()
+        objects = objects.order_by('-status')
     if len(skills) > 0:
         objects = filter(lambda x: filter_list([y.name for y in x.skills.all()], skills), objects)
     if len(sectors) > 0:
@@ -157,6 +164,7 @@ def viewprojects(request):
     sectors = Sector.objects.all()
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
     skills = Skill.objects.all()
+    new_projects = sorted(new_projects, key=order_status)
     context = {'projects': new_projects, 'sectors_list': sectors_list, 'skills_list': skills_list, 'sectors': sectors, 'skills': skills}
     return render(request, 'itfornonprofits/viewprojects.html', context)
 
