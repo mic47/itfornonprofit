@@ -72,7 +72,8 @@ def createprojectindb(request):
 
 def viewproject(request, pk):
     p = Project.objects.get(pk=int(pk))
-    context = {'project': p}
+    skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
+    context = {'project': p, 'skills_list': skills_list}
     return render(request, 'itfornonprofits/viewproject.html', context);
 
 def contactproject(request):
@@ -218,3 +219,21 @@ def createengineer(request):
 
     context = {}
     return render(request, 'itfornonprofits/registerengineer.html', context)
+
+def addskilltoproject(request, pk):
+    skill = idx(request.POST, 'skills', '')
+    project = Project.objects.get(pk=pk)
+    try: 
+        skill_obj = Skill.objects.get(name=skill)
+    except:
+        #TODO: correct exception hadnling
+        skill_obj = Skill(name=skill)
+        skill_obj.save()
+    project.skills.add(skill_obj)
+    project.save()
+   
+    skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
+    context = {'project': project, 'skills_list': skills_list}
+    return render(request, 'itfornonprofits/viewproject.html', context);
+   
+

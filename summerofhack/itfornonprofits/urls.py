@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^viewengineers$', views.viewengineers, name='viewengineers'),
     url(r'^registerengineer$', views.registerengineer, name='registerengineer'),
     url(r'^createengineer$', views.createengineer, name='createengineer'),
+    url(r'^addskilltoproject/(\d)$', views.addskilltoproject, name='addskilltoproject'),
 )
