@@ -122,7 +122,14 @@
 
         {% for project in projects %}
         <tr>
-          <td><a href="{% url 'viewproject' project.pk %}" >{{project.name}}</a></td>
+          <td><a href="{% url 'viewproject' project.pk %}" >{{project.name}}</a> 
+          {% if project.status == 'Finished' %}
+            <i class="icon-ok"></i>
+          {% elif project.status == 'Backed' %}
+            <i class "icon-heart"></i>
+          {% else %}
+          {% endif %}
+          </td>
           <td>{{project.description}}</td>
           <td>{{project.date_created}}</td>
           <td>{{project.time_needed}}</td>

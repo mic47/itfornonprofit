@@ -12,6 +12,18 @@ class Sector(models.Model):
         
     name = models.CharField(max_length=200)
 
+class Engineer(models.Model):
+    def __unicode__(self):
+        return self.name
+
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    sectors = models.ManyToManyField(Sector)
+    skills = models.ManyToManyField(Skill)
+    email = models.EmailField(max_length=300)
+    time_per_week = models.IntegerField()
+    time_per_week_alloted = models.IntegerField()
+
 class Project(models.Model):
     def __unicode__(self):
         return self.name
@@ -24,15 +36,5 @@ class Project(models.Model):
     sectors = models.ManyToManyField(Sector)
     email = models.EmailField(max_length=300)
     fbpage = models.CharField(max_length=200)
-
-class Engineer(models.Model):
-    def __unicode__(self):
-        return self.name
-
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    sectors = models.ManyToManyField(Sector)
-    skills = models.ManyToManyField(Skill)
-    email = models.EmailField(max_length=300)
-    time_per_week = models.IntegerField()
-    time_per_week_alloted = models.IntegerField()
+    status = models.CharField(max_length=50)
+    backed_by = models.ManyToManyField(Engineer)
