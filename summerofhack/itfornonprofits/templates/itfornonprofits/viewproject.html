@@ -71,7 +71,7 @@
         {% endfor %}
         <form action="{% url 'addskilltoproject' project.pk %}" method="post">
 			{% csrf_token %}
-          <input type="text" name="skills" placeholder="Suggest skills" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> 
+          <input type="text" name="skills" placeholder="Suggest needed skills" data-provide="typeahead" data-source='{{skills_list}}' autocomplete="off" id='skillSelect'/> 
         </form>
         {% for sector in project.sectors.all %}
           <span class="badge badge-warning"> {{ sector.name }} </span>
