@@ -159,6 +159,8 @@ def viewprojects(request):
     for project in projects:
         project.new_skills =  ', '.join([str(s.name) for s in project.skills.all()])
         project.new_sectors = ', '.join([str(s.name) for s in project.sectors.all()])
+        if len(project.description) > 100:
+            project.description = project.description[:90] + '...'
         new_projects.append(project)
     sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
     sectors = Sector.objects.all()
