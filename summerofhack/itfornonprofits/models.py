@@ -23,6 +23,7 @@ class Project(models.Model):
     skills = models.ManyToManyField(Skill)
     sectors = models.ManyToManyField(Sector)
     email = models.EmailField(max_length=300)
+    fbpage = models.CharField(max_length=200)
 
 class Engineer(models.Model):
     def __unicode__(self):

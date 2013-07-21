@@ -52,16 +52,30 @@
                                    <link rel="shortcut icon" href="../assets/ico/favicon.png">
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap.js"></script>
+  <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=661428913884918";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
   </head>
 
   <body>
-
-    <div class="container">
+<div id="fb-root"></div>
+        <div class="container">
       <div class="soh">
-
-      <div class="hero-unit">
         <center><h2>Project: {{project.name}} </h2></center>
         <br>
+
+        <div class="hero-unit">
+        <div style="float:right">   
+      {% if project.fbpage %}
+        <div class="fb-like-box" data-href="{{project.fbpage}}" data-width="292" data-show-faces="false" data-stream="true" data-show-border="true" data-header="true"></div>
+      {% endif %}  
+      </div>
+
         {%if message %}
            <strong>{{message}}</strong> 
         {%endif %}
@@ -90,7 +104,6 @@
 		</form></center>
         <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
       </div>
-
     </div>
     </div> <!-- /container -->
   </body>

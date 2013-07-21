@@ -37,6 +37,7 @@ def createprojectindb(request):
         description=request.POST['description'],
         time_needed=request.POST['time_needed'],
         email=request.POST['email'],
+        fbpage=request.POST['fbpage'],
         date_created=datetime.datetime.now()
     )
     p.save()
