@@ -189,6 +189,7 @@ def viewengineers(request):
         engineer.new_sectors = ', '.join([str(s.name) for s in engineer.sectors.all()])
         engineer.time_available = engineer.time_per_week - engineer.time_per_week_alloted
         new_engineers.append(engineer)
+        engineer.finished_projects = len(engineer.project_set.filter(status='Finished'))
     sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
     sectors = Sector.objects.all()

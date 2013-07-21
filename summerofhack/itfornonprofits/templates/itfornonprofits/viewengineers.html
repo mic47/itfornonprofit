@@ -113,7 +113,8 @@
 
         {% for engineer in engineers %}
         <tr>
-          <td>{{engineer.name}}</td>
+          <td>{{engineer.name}} ({{engineer.finished_projects}} finished 
+          {%if engineer.finished_projects == 1%}project{%else%}projects{%endif%})</td>
           <td>{{engineer.description}}</td>
           <td>{{engineer.time_available}}/{{engineer.time_per_week}}</td>
           <td>
