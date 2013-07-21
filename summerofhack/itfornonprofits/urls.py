@@ -9,4 +9,7 @@ urlpatterns = patterns('',
     url(r'^viewprojects$', views.viewprojects, name='viewprojects'),
     url(r'^viewproject$', views.viewproject, name='viewproject'),
     url(r'^contactproject$', views.contactproject, name='contactproject'),
+    url(r'^viewengineers$', views.viewengineers, name='viewengineers'),
+    url(r'^registerengineer$', views.registerengineer, name='registerengineer'),
+    url(r'^createengineer$', views.createengineer, name='createengineer'),
 )

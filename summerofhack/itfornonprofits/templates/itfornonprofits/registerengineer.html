@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Eng for Good</title>
+    <title>Eng For Good</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -58,45 +58,26 @@
       <div class="soh">
 
       <div class="hero-unit">
-        <center><h2>Move Fast and Build Things.</h2></center>
+        <center><h2>Register as an engineer</h2></center>
         <br>
-        <p>Welcome! Our goal is to connect engineers who want to donate their time with nonprofit projects that need them.
-          If you're a programmer, browse our projects to find a cause that needs your help.
-          If you're a nonprofit, add a project that you need coding help on.
-          Keep calm and code on!</p>
+        <p>Are you an engineer that want to do some volunteer work? Register here and be notified about non-profit projects that needs your help!</p>
           <br>
-        <center><table>
-        	<tr>
-        		<td>
-              <a href="{% url 'viewprojects' %}">
-        			<button class="btn btn-large btn-success" type="button">
-                <h2>Find a project</h2>
-              </button></a>
-        		</td>
-        		<td>
-        			<a href="{% url 'addproject' %}">
-              <button class="btn btn-large btn-info" type="button">
-                <h2>Add a project</h2>
-              </button></a>
-        		</td>
-        	</tr>
-        	<tr>
-        		<td>
-              <a href="{% url 'viewengineers' %}">
-        			<button class="btn btn-large btn-info" type="button">
-                <h2>Find engineer</h2>
-              </button></a>
-        		</td>
-        		<td>
-        			<a href="{% url 'registerengineer' %}">
-              <button class="btn btn-large btn-success" type="button">
-                <h2>New engineer</h2>
-              </button></a>
-        		</td>
-        	</tr>
-
-        </table></center>
-        <br><br>
+  		<center><form action="{% url 'createengineer' %}" method="post">
+			{% csrf_token %}
+						<label for="name">Your name</label>
+						<input type="text" name="name" id="name" />
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" />
+						<label for="description">Description</label>
+						<textarea name="description" id="description" placeholder="Write something about you that you want to share."></textarea>
+						<label for="time_weekly">Number of hours you want to donate (weekly)</label>
+						<input type="text" name="time_weekly" id="time_weekly" value="5"/>
+						<label for="sectors">Sectors</label>
+						<textarea name="sectors" id="description" placeholder="For example, education or health."></textarea>
+						<label for="skills">Skills</label>
+						<textarea name="skills" id="skills" placeholder="What skills do you have?"></textarea><br>
+						<button class="btn btn-success" type="submit">Register!</button>
+		</form></center>
         <p style="text-align:right">A 2013 Summer of Hack project by Michal and Ellora.</p>
       </div>
 
