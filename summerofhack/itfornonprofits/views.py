@@ -71,7 +71,7 @@ def createprojectindb(request):
             project_skill = project_skill[0]
         p.skills.add(project_skill)
 
-    return render(request, 'itfornonprofits/viewprojects.html')
+    return viewprojects(request)
 
 def viewproject(request, pk):
     p = Project.objects.get(pk=int(pk))
@@ -114,13 +114,25 @@ Subject: {subject}
     elif project.status == 'Finished':
         backing_message = 'Project was finished by '
     else: 
+<<<<<<< HEAD
         backing_message = 'Project is not backed yet.'
     context = {'project': p, 'message': message_to_user, 'backing_message': backing_message}
+=======
+        backing_message = 'Project is no backed yet.'
+    context = {'project': p, 'message': message_to_user, 'backing_message': backing_message, 'engineers': Engineer.objects.all()}
+>>>>>>> ef706c80690fea4bfaa5247fdf517ee172046121
     return render(request, 'itfornonprofits/viewproject.html', context);
 
 def filter_list(wat, stuff):
     intersection = set(wat).intersection(set(stuff)) 
     return len(intersection) > 0 or len(wat) == 0
+
+def order_status(x):
+    if x.status == 'Finished':
+        return 2
+    if x.status == 'Backed':
+        return 1
+    return 0
 
 def viewprojects(request):
     # Keyword search
@@ -140,9 +152,9 @@ def viewprojects(request):
     if mintime > 0:
         objects = objects.filter(time_needed__gte=mintime)
     if len(keyword) > 0:
-        objects = objects.filter(description__contains=keyword)
+        objects = objects.filter(description__contains=keyword).order_by('-status')
     if type(objects != list):
-        objects = objects.all()
+        objects = objects.order_by('-status')
     if len(skills) > 0:
         objects = filter(lambda x: filter_list([y.name for y in x.skills.all()], skills), objects)
     if len(sectors) > 0:
@@ -152,11 +164,14 @@ def viewprojects(request):
     for project in projects:
         project.new_skills =  ', '.join([str(s.name) for s in project.skills.all()])
         project.new_sectors = ', '.join([str(s.name) for s in project.sectors.all()])
+        if len(project.description) > 100:
+            project.description = project.description[:90] + '...'
         new_projects.append(project)
     sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
     sectors = Sector.objects.all()
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
     skills = Skill.objects.all()
+    new_projects = sorted(new_projects, key=order_status)
     context = {'projects': new_projects, 'sectors_list': sectors_list, 'skills_list': skills_list, 'sectors': sectors, 'skills': skills}
     return render(request, 'itfornonprofits/viewprojects.html', context)
 
@@ -189,6 +204,7 @@ def viewengineers(request):
         engineer.new_sectors = ', '.join([str(s.name) for s in engineer.sectors.all()])
         engineer.time_available = engineer.time_per_week - engineer.time_per_week_alloted
         new_engineers.append(engineer)
+        engineer.finished_projects = len(engineer.project_set.filter(status='Finished'))
     sectors_list = json.dumps(sorted([sector.name for sector in Sector.objects.all()]))
     skills_list = json.dumps(sorted([skill.name for skill in Skill.objects.all()]))
     sectors = Sector.objects.all()
@@ -230,7 +246,7 @@ def createengineer(request):
             project_skill = project_skill[0]
         e.skills.add(project_skill)
 
-    return render(request, 'itfornonprofits/viewengineers.html')
+    return viewengineers(request)
 
     context = {}
     return render(request, 'itfornonprofits/registerengineer.html', context)
@@ -255,7 +271,7 @@ def addskilltoproject(request, pk):
     else: 
         backing_message = 'Project is no backed yet.'
     print backing_message, project.status, 'asdf'
-    context = {'project': project, 'skills_list': skills_list, 'backing_message': backing_message}
+    context = {'project': project, 'skills_list': skills_list, 'backing_message': backing_message, 'engineers': Engineer.objects.all()}
     return render(request, 'itfornonprofits/viewproject.html', context);
    
 def backproject(request, pk_project, pk_user):

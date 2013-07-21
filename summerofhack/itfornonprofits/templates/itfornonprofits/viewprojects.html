@@ -54,22 +54,15 @@
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap-slider.js"></script>
+  <script src="/static/itfornonprofits/js/clickable_tags.js"></script>
   <script>
-    /*
-        var skills = [];
-        var sectors = [];
-        $(function () {
-            $('#selector').submit(function(e) {
-                //e.preventDefault();
-                var txt = $('#skillSelect').val();
-                $('#skillSelect').val('');
-                alert(txt);
+    function do_onload() {
+        register_clickable_tags("", "{%csrf_token%}");
+    }
+  </script>
 
-            });
-})*/
-</script>
 </head>
-<body>
+<body onload='do_onload();'>
   {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
   <div class="container">
@@ -126,7 +119,7 @@
           {% if project.status == 'Finished' %}
             <i class="icon-ok"></i>
           {% elif project.status == 'Backed' %}
-            <i class "icon-heart"></i>
+            <i class="icon-heart"></i>
           {% else %}
           {% endif %}
           </td>

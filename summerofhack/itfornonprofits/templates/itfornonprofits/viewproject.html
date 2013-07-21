@@ -76,16 +76,24 @@
     });
 
   }
-
   </script>
+  <script src="/static/itfornonprofits/js/clickable_tags.js"></script>
+  <script>
+    function do_onload() {
+        register_clickable_tags("{% url 'viewprojects' %}", "{%csrf_token%}");
+    }
+  </script>
+
+  <body onload='do_onload()'>
 
 </head>
 
 <body>
-  <div id="fb-root"></div>
-  <div class="container">
-    <div class="soh">
-      <div class="hero-unit">
+  
+<div id="fb-root"></div>
+        <div class="container">
+      <div class="soh">
+        <div class="hero-unit">
         <center><h2>Project: {{project.name}} </h2></center>
         <br>
         <center>{{backing_message}} 

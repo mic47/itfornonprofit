@@ -54,22 +54,14 @@
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap-slider.js"></script>
+  <script src="/static/itfornonprofits/js/clickable_tags.js"></script>
   <script>
-    /*
-        var skills = [];
-        var sectors = [];
-        $(function () {
-            $('#selector').submit(function(e) {
-                //e.preventDefault();
-                var txt = $('#skillSelect').val();
-                $('#skillSelect').val('');
-                alert(txt);
-
-            });
-})*/
-</script>
-</head>
-<body>
+    function do_onload() {
+        register_clickable_tags("", "{%csrf_token%}");
+    }
+  </script>
+ </head>
+<body onload='do_onload();'>
   {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
   <div class="container">
@@ -113,7 +105,8 @@
 
         {% for engineer in engineers %}
         <tr>
-          <td>{{engineer.name}}</td>
+          <td>{{engineer.name}} ({{engineer.finished_projects}} finished 
+          {%if engineer.finished_projects == 1%}project{%else%}projects{%endif%})</td>
           <td>{{engineer.description}}</td>
           <td>{{engineer.time_available}}/{{engineer.time_per_week}}</td>
           <td>
