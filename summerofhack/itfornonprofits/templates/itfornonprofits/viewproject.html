@@ -152,7 +152,7 @@
   </center>
   {% if project.status != "Finished" %}
   <center>
-    <h2>Offer help</h2>
+    <h4>Offer help</h4>
     <form action="{% url 'contactproject' %}" method="post">
      {% csrf_token %}
      <input type='hidden' name='pk' value='{{project.pk}}' />
