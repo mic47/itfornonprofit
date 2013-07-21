@@ -59,9 +59,18 @@
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
                     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
                                    <link rel="shortcut icon" href="../assets/ico/favicon.png">
-  </head>
+     <script src="http://code.jquery.com/jquery.js"></script>
+        <script>
+            function do_counter() {
+                var number = parseFloat($('#deed_counter').text());
+                number += Math.round(Math.random()*4);
+                $('#deed_counter').text(number);
+                setTimeout('do_counter();', Math.round(3000 * Math.random()));
+            }
+        </script>
+  </head >
 
-  <body>
+  <body onload="do_counter();">
 
     <div class="container">
       <div class="soh">

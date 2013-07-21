@@ -4,6 +4,7 @@ import json
 import datetime
 import email
 import smtplib
+import time
 from itfornonprofits.models import Project
 from itfornonprofits.models import Sector
 from itfornonprofits.models import Skill
@@ -12,7 +13,7 @@ from itfornonprofits.models import Engineer
 def index(request):
   #  num_projects = len(Project.objects.all())
     num_hours = sum([e.time_per_week - e.time_per_week_alloted for e in Engineer.objects.all()])
-    num_projects = 1000000
+    num_projects = 2000000 - 1375383177 + int(time.time())
     context = {'num_projects': num_projects, 'num_hours': num_hours}
     return render(request, 'itfornonprofits/index.html', context)
 
