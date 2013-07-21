@@ -54,8 +54,14 @@
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap.js"></script>
   <script src="/static/itfornonprofits/js/bootstrap-slider.js"></script>
+  <script src="/static/itfornonprofits/js/clickable_tags.js"></script>
+  <script>
+    function do_onload() {
+        register_clickable_tags("", "{%csrf_token%}");
+    }
+  </script>
  </head>
-<body>
+<body onload='do_onload();'>
   {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
   <div class="container">

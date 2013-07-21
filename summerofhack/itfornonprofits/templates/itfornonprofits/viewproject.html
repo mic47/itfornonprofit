@@ -80,8 +80,14 @@
     </script>
 
   </head>
+  <script src="/static/itfornonprofits/js/clickable_tags.js"></script>
+  <script>
+    function do_onload() {
+        register_clickable_tags("{% url 'viewprojects' %}", "{%csrf_token%}");
+    }
+  </script>
 
-  <body>
+  <body onload='do_onload()'>
 <div id="fb-root"></div>
         <div class="container">
       <div class="soh">
