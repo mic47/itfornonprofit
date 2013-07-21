@@ -122,7 +122,7 @@
 
         {% for project in projects %}
         <tr>
-          <td>{{project.name}}</td>
+          <td><a href="{% url 'viewproject' project.pk %}" >{{project.name}}</a></td>
           <td>{{project.description}}</td>
           <td>{{project.date_created}}</td>
           <td>{{project.time_needed}}</td>
