@@ -8,7 +8,7 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
-PROJECT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+PROJECT_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)))
 
 MANAGERS = ADMINS
 
@@ -21,11 +21,13 @@ def getdb():
         if os.path.isfile(f):
             return f
 
+print  {'NAME': os.path.join(os.path.dirname(__file__), '../db'),}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         #'NAME': '/Users/elloraisrani/itfornonprofit/db',
-        'NAME': os.path.join(os.path.abspath(__file__), '../db'),
+        'NAME': os.path.join(os.path.dirname(__file__), '../db'),
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
